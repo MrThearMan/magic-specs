@@ -1,0 +1,11 @@
+site_name: Magic Specs
+nav:
+  - Home: index.md
+  - Definition: definition.md
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:  # https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
+    - python
+    - json
+    - console

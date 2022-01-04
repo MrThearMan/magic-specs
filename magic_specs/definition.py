@@ -115,7 +115,7 @@ class DefinitionMeta(type):
             raise error
 
     def __contains__(cls, item: Any) -> bool:
-        return item in cls._key2value_map_
+        return item in cls._value2key_map_
 
     def __str__(cls) -> str:
         return "{" + ", ".join([f"{key}={value}" for key, value in cls._key2value_map_.items()]) + "}"

@@ -109,8 +109,8 @@ def test_definition__membership_tests():
         C = 3
         D = 4
 
-    assert "A" in Foo
-    assert "Bar" not in Foo
+    assert 1 in Foo
+    assert 5 not in Foo
 
     assert "A" in Foo.keys()
     assert 1 in Foo.values()

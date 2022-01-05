@@ -417,6 +417,6 @@ def test_definition__iterate():
         C = 3
         D = 4
 
-    assert list(Foo) == ["A", "B", "C", "D"]
+    assert list(Foo) == [1, 2, 3, 4]
     # Should work a second time too
-    assert list(Foo) == ["A", "B", "C", "D"]
+    assert list(Foo) == [1, 2, 3, 4]

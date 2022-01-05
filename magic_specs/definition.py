@@ -126,7 +126,7 @@ class DefinitionMeta(type):
     def __iter__(cls) -> "DefinitionMeta":  # pylint: disable=E0301
         return cls
 
-    @iterable_cache(provider="keys")
+    @iterable_cache(provider="values")
     def __next__(cls, keys: Iterator[str]) -> str:  # pylint: disable=R0201
         return next(keys)
 

@@ -30,13 +30,13 @@ class DefinitionMeta(type):
         bases: Tuple[type],
         classdict: Dict[str, Any],
         *,
-        default_key: Any = sentinel,
+        default_key: str = sentinel,
         default_value: Any = sentinel,
         unique: bool = True,
     ):
         _key_to_baseclass_: Dict[str, type] = {}
         _key2value_map_: Dict[str, Any] = {}
-        _value2key_map_: Dict[str, Any] = {}
+        _value2key_map_: Dict[Any, str] = {}
         for base in bases:
             for key, value in getattr(base, "_key2value_map_", {}).items():
 
@@ -60,7 +60,7 @@ class DefinitionMeta(type):
         _new_class_._key2value_map_: Dict[str, Any] = _key2value_map_  # type: ignore
         _new_class_._value2key_map_: Dict[Any, str] = _value2key_map_  # type: ignore
         _new_class_._unique_: bool = unique  # type: ignore
-        _new_class_._default_key_: Any = default_key  # type: ignore
+        _new_class_._default_key_: str = default_key  # type: ignore
         _new_class_._default_value_: Any = default_value  # type: ignore
 
         for key, value in classdict.items():
@@ -115,7 +115,7 @@ class DefinitionMeta(type):
             raise error
 
     def __contains__(cls, item: Any) -> bool:
-        return item in cls._value2key_map_
+        return item in cls.values()
 
     def __str__(cls) -> str:
         return "{" + ", ".join([f"{key}={value}" for key, value in cls._key2value_map_.items()]) + "}"
@@ -140,4 +140,20 @@ class DefinitionMeta(type):
 
 
 class Definition(metaclass=DefinitionMeta):
-    """Create Definitions by subclassing this class."""
+    r"""Create Definitions by subclassing this class.
+
+    You can use the following class-level keywork arguments
+    to change how the Definition behaves:
+
+                  Arguments go here↴
+    class MyDefinition(Definition, key=...):
+        ...
+
+    default_key: str — When no key is for a given value is found,
+                       return this instead of raising a KeyError.
+    default_value: Any — When no value is for a given key is found,
+                         return this instead of raising a KeyError.
+    unique: bool — By default, all keys and values in a definition have
+                   to be unique. You can set unique=False to disable this,
+                   but it also disables reverse lookup with values.
+    """

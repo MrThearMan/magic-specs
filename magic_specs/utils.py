@@ -2,10 +2,13 @@ from functools import wraps
 from typing import Any, Callable
 
 
-__all__ = ["iterable_cache", "sentinel"]
+__all__ = [
+    "iterable_cache",
+    "Sentinel",
+]
 
 
-class sentinel:  # pylint: disable=C0103
+class Sentinel:
     pass
 
 

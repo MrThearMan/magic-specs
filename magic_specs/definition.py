@@ -1,6 +1,6 @@
 from typing import Any, Dict, Hashable, Iterator, KeysView, Tuple, ValuesView
 
-from .utils import iterable_cache, sentinel
+from .utils import Sentinel, iterable_cache
 
 
 __all__ = ["Definition"]
@@ -24,14 +24,14 @@ _internal = {
 
 
 class DefinitionMeta(type):
-    def __new__(  # pylint: disable=C0204
-        mcs,
-        cls: str,
+    def __new__(
+        cls,
+        clss: str,
         bases: Tuple[type],
         classdict: Dict[str, Any],
         *,
-        default_key: str = sentinel,
-        default_value: Any = sentinel,
+        default_key: str = Sentinel,
+        default_value: Any = Sentinel,
         unique: bool = True,
     ):
         _key_to_baseclass_: Dict[str, type] = {}
@@ -56,7 +56,7 @@ class DefinitionMeta(type):
                 if unique:
                     _value2key_map_[value] = key
 
-        _new_class_ = super().__new__(mcs, cls, bases, classdict)
+        _new_class_ = super().__new__(cls, clss, bases, classdict)
         _new_class_._key2value_map_: Dict[str, Any] = _key2value_map_  # type: ignore
         _new_class_._value2key_map_: Dict[Any, str] = _value2key_map_  # type: ignore
         _new_class_._unique_: bool = unique  # type: ignore
@@ -96,12 +96,12 @@ class DefinitionMeta(type):
         try:
             return cls._key2value_map_[key]
         except KeyError as error:
-            if cls._default_value_ is not sentinel:
+            if cls._default_value_ is not Sentinel:
                 return cls._default_value_
             raise error
 
-    def __call__(cls, value: Any = sentinel) -> str:  # type: ignore
-        if value is sentinel:
+    def __call__(cls, value: Any = Sentinel) -> str:  # type: ignore
+        if value is Sentinel:
             raise TypeError("Definition should not be instantiated.")
 
         if not cls._unique_:
@@ -110,12 +110,12 @@ class DefinitionMeta(type):
         try:
             return cls._value2key_map_[value]
         except KeyError as error:
-            if cls._default_key_ is not sentinel:
+            if cls._default_key_ is not Sentinel:
                 return cls._default_key_
             raise error
 
     def __contains__(cls, item: Any) -> bool:
-        return item in cls.values()
+        return item in cls.values()  # pylint: disable=no-value-for-parameter
 
     def __str__(cls) -> str:
         return "{" + ", ".join([f"{key}={value}" for key, value in cls._key2value_map_.items()]) + "}"
@@ -123,11 +123,11 @@ class DefinitionMeta(type):
     def __len__(cls) -> int:
         return len(cls._key2value_map_)
 
-    def __iter__(cls) -> "DefinitionMeta":  # pylint: disable=E0301
+    def __iter__(cls) -> "DefinitionMeta":  # pylint: disable=non-iterator-returned
         return cls
 
     @iterable_cache(provider="values")
-    def __next__(cls, keys: Iterator[str]) -> str:  # pylint: disable=R0201
+    def __next__(cls, keys: Iterator[str]) -> str:
         return next(keys)
 
     def keys(cls) -> KeysView[str]:

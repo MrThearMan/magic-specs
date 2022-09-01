@@ -54,11 +54,9 @@ repos:
     -   id: pylint
         name: pylint
         exclude: ^tests/
-        entry: env DJANGO_SETTINGS_MODULE=tests.django.settings poetry run pylint
+        entry: poetry run pylint
         language: system
         types: [python]
         args: [
           "--score=n",
-          "--load-plugins=pylint_django",
-          "--django-settings-module=tests.django.settings",
           ]

@@ -54,7 +54,6 @@ pymdown-extensions = "9.5"
 
 [tool.poetry.group.lint.dependencies]
 pylint = "2.15.0"
-pylint-django = "2.5.3"
 mypy = "0.971"
 
 [tool.black]

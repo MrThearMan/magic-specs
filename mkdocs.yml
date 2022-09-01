@@ -1,7 +1,9 @@
 site_name: Magic Specs
+
 nav:
   - Home: index.md
   - Definition: definition.md
+
 theme:
   name: readthedocs
   highlightjs: true

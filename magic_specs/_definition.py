@@ -1,9 +1,16 @@
 from typing import Any, Dict, Hashable, Iterator, KeysView, Tuple, ValuesView
 
-from .utils import Sentinel, iterable_cache
+from ._iterable_cache import iterable_cache
 
 
-__all__ = ["Definition"]
+__all__ = [
+    "Definition",
+]
+
+
+class Sentinel:
+    pass
+
 
 _ignore = {
     "__module__",

@@ -1,6 +1,4 @@
-export DJANGO_SETTINGS_MODULE = tests.django.settings
-
-.PHONY: help dev docs tests test tox hook pre-commit mypy Makefile
+.PHONY: help dev docs tests test tox hook pre-commit pre-commit-update mypy Makefile
 
 # Trick to allow passing commands to make
 # Use quotes (" ") if command contains flags (-h / --help)

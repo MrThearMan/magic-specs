@@ -4,15 +4,10 @@ from typing import Any, Callable
 
 __all__ = [
     "iterable_cache",
-    "Sentinel",
 ]
 
 
-class Sentinel:
-    pass
-
-
-def iterable_cache(provider: str, *args, **kwargs) -> Callable:
+def iterable_cache(provider: str, *args, **kwargs) -> Callable[..., Any]:
     r"""Decorate classes "__next__" magic method. This creates a cache that remembers
     the current iterator object the instance is iterating over. The cached instance is
     provided to "__next__" as an argument, so it can just call next(...) on it.

@@ -25,7 +25,7 @@ This library contains utilities for making definitions for magic values.
 
 
 [coverage-badge]: https://coveralls.io/repos/github/MrThearMan/magic-specs/badge.svg?branch=main
-[status-badge]: https://img.shields.io/github/workflow/status/MrThearMan/magic-specs/Tests
+[status-badge]: https://img.shields.io/github/actions/workflow/status/MrThearMan/magic-specs/test.yml?branch=main
 [pypi-badge]: https://img.shields.io/pypi/v/magic-specs
 [licence-badge]: https://img.shields.io/github/license/MrThearMan/magic-specs
 [repo-badge]: https://img.shields.io/github/last-commit/MrThearMan/magic-specs

@@ -2,7 +2,6 @@ from typing import Any, Dict, Hashable, Iterator, KeysView, Tuple, ValuesView
 
 from ._iterable_cache import iterable_cache
 
-
 __all__ = [
     "Definition",
 ]
@@ -31,7 +30,7 @@ _internal = {
 
 
 class DefinitionMeta(type):
-    def __new__(
+    def __new__(  # noqa: C901
         cls,
         clss: str,
         bases: Tuple[type],

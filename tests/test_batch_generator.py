@@ -6,7 +6,6 @@ import pytest
 
 from magic_specs import batched
 
-
 T = TypeVar("T")
 
 

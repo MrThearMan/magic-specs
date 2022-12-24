@@ -2,7 +2,6 @@ from importlib import import_module
 from sys import modules
 from typing import Any
 
-
 __all__ = [
     "import_from_string",
 ]

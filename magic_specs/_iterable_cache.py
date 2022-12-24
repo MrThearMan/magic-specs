@@ -1,7 +1,6 @@
 from functools import wraps
 from typing import Any, Callable
 
-
 __all__ = [
     "iterable_cache",
 ]

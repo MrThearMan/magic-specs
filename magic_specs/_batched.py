@@ -1,7 +1,6 @@
 from itertools import islice
 from typing import Any, Generator, KeysView, Mapping, Sequence, TypeVar, ValuesView
 
-
 __all__ = [
     "batched",
 ]

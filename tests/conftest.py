@@ -1,6 +1,5 @@
 from magic_specs import Definition
 
-
 __all__ = ["TestDefinition"]
 
 

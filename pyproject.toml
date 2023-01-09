@@ -42,9 +42,8 @@ python = ">=3.8,<4"
 [tool.poetry.group.test.dependencies]
 pytest = "7.2.0"
 coverage = "6.5.0"
-pre-commit = "2.20.0"
-tox = "3.25.1"
-tox-gh-actions = "2.9.1"
+pre-commit = "2.21.0"
+tox = "4.2.6"
 coveralls = "3.3.1"
 bidict = "0.22.0"
 
@@ -53,7 +52,7 @@ mkdocs = "1.4.2"
 pymdown-extensions = "9.9"
 
 [tool.poetry.group.lint.dependencies]
-mypy = "0.971"
+mypy = "0.991"
 
 [tool.black]
 line-length = 120
@@ -113,15 +112,8 @@ legacy_tox_ini = """
 envlist = py{38, 39, 310, 311}
 isolated_build = true
 
-[gh-actions]
-python =
-    3.8: py38
-    3.9: py39
-    3.10: py310
-    3.11: py311
-
 [testenv]
-whitelist_externals =
+allowlist_externals =
     poetry
 setenv =
     PYTHONPATH = {toxinidir}

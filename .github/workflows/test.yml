@@ -16,5 +16,4 @@ jobs:
     uses: MrThearMan/CI/.github/workflows/test.yml@main
     with:
       env: '["py38", "py39", "py310", "py311"]'
-      env-exclude: "py311"
-      os-exclude: "windows-latest"
+      exclude: '[{"os": "windows-latest", "env": "py311"}]'

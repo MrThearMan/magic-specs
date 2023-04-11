@@ -45,7 +45,6 @@ class DefinitionMeta(type):
         _value2key_map_: Dict[Any, str] = {}
         for base in bases:
             for key, value in getattr(base, "_key2value_map_", {}).items():
-
                 if unique and not isinstance(value, Hashable):
                     raise ValueError(
                         f"'{value}' is not hashable, and thus cannot be used for uniquely-valued Definitions."

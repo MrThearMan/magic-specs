@@ -339,7 +339,6 @@ def test_definition__definitions_are_not_special_values():
 
 
 def test_definition__unhashable_values():
-
     msg = r"'.+' is not hashable, and thus cannot be used for uniquely-valued Definitions."
 
     with pytest.raises(ValueError, match=msg):

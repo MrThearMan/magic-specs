@@ -18,6 +18,8 @@ pip install magic-specs
 
 **Source Code**: [https://github.com/MrThearMan/magic-specs/](https://github.com/MrThearMan/magic-specs/)
 
+**Contributing**: [https://github.com/MrThearMan/magic-specs/blob/main/CONTRIBUTING.md](https://github.com/MrThearMan/magic-specs/blob/main/CONTRIBUTING.md)
+
 ---
 
 

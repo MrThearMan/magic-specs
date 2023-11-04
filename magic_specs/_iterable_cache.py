@@ -6,8 +6,9 @@ __all__ = [
 ]
 
 
-def iterable_cache(provider: str, *args, **kwargs) -> Callable[..., Any]:
-    r"""Decorate classes "__next__" magic method. This creates a cache that remembers
+def iterable_cache(provider: str, *args: Any, **kwargs: Any) -> Callable[..., Any]:
+    r"""
+    Decorate classes "__next__" magic method. This creates a cache that remembers
     the current iterator object the instance is iterating over. The cached instance is
     provided to "__next__" as an argument, so it can just call next(...) on it.
     Once the iterator is iterated, it clears the cached iterator,
@@ -24,25 +25,24 @@ def iterable_cache(provider: str, *args, **kwargs) -> Callable[..., Any]:
         def keys(self):
             # items are provided here
 
-    :params provider: Function that procides the items to iterate over.
+    :params provider: Function that provides the items to iterate over.
                       Additional arguments can be provided to it from *args and **kwargs.
     """
 
-    def decorator(func) -> Callable:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         items = None
 
         @wraps(func)
-        def wrapper(self) -> Any:
+        def wrapper(self: Any) -> Any:
             nonlocal items
             if items is None:
                 items = iter(getattr(self, provider)(*args, **kwargs))
 
             try:
-                result = func(self, items)
-                return result
-            except StopIteration as error:
+                return func(self, items)
+            except StopIteration:
                 items = None
-                raise error
+                raise
 
         return wrapper
 

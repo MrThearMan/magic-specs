@@ -11,7 +11,8 @@ T = TypeVar("T", Sequence, Mapping, KeysView, ValuesView)
 
 def batched(iterable: T, batch_size: int) -> Generator[T, Any, None]:
     if batch_size <= 0:
-        raise ValueError("Batch size must be positive.")
+        msg = "Batch size must be positive."
+        raise ValueError(msg)
 
     while iterable:
         try:
@@ -21,13 +22,13 @@ def batched(iterable: T, batch_size: int) -> Generator[T, Any, None]:
             if isinstance(iterable, Mapping):
                 try:
                     iterable, batch = (
-                        iterable.__class__(islice(iterable.items(), batch_size, len(iterable))),  # type: ignore
-                        iterable.__class__(islice(iterable.items(), 0, batch_size)),  # type: ignore
+                        iterable.__class__(islice(iterable.items(), batch_size, len(iterable))),
+                        iterable.__class__(islice(iterable.items(), 0, batch_size)),
                     )
                 except TypeError:
                     iterable, batch = (
-                        iterable.__class__(**dict(islice(iterable.items(), batch_size, len(iterable)))),  # type: ignore
-                        iterable.__class__(**dict(islice(iterable.items(), 0, batch_size))),  # type: ignore
+                        iterable.__class__(**dict(islice(iterable.items(), batch_size, len(iterable)))),
+                        iterable.__class__(**dict(islice(iterable.items(), 0, batch_size))),
                     )
             else:
                 try:

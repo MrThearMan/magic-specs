@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 
-def ttl_cache(ttl: int = 2):
+def ttl_cache(ttl: int = 2) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """
     Cache decorated function's return value for the given number of seconds.
     This can be useful when the result of the function might change with time,
@@ -20,7 +20,6 @@ def ttl_cache(ttl: int = 2):
     Note that the cached value is not shared between workers/processes, but can
     be valid for a second request to the same worker/process if the ttl is long enough!
     """
-
     _sentinel = object()
     _cache: Any = _sentinel
     _set: Union[float, object] = _sentinel

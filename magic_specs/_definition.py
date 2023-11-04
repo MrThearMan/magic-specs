@@ -30,7 +30,7 @@ _internal = {
 
 
 class DefinitionMeta(type):
-    def __new__(  # noqa: C901
+    def __new__(  # noqa: C901, ANN204, PLR0913
         cls,
         clss: str,
         bases: Tuple[type],
@@ -46,15 +46,16 @@ class DefinitionMeta(type):
         for base in bases:
             for key, value in getattr(base, "_key2value_map_", {}).items():
                 if unique and not isinstance(value, Hashable):
-                    raise ValueError(
-                        f"'{value}' is not hashable, and thus cannot be used for uniquely-valued Definitions."
-                    )
+                    msg = f"'{value}' is not hashable, and thus cannot be used for uniquely-valued Definitions."
+                    raise ValueError(msg)
 
                 if key in _key2value_map_:
-                    raise ValueError(f"'{_key_to_baseclass_[key].__name__}' and '{base.__name__}' both defined '{key}'")
+                    msg = f"'{_key_to_baseclass_[key].__name__}' and '{base.__name__}' both defined '{key}'"
+                    raise ValueError(msg)
 
                 if unique and value in _value2key_map_:
-                    raise ValueError(f"'{_value2key_map_[value]}' and '{key}' have the same value: {value}")
+                    msg = f"'{_value2key_map_[value]}' and '{key}' have the same value: {value}"
+                    raise ValueError(msg)
 
                 _key_to_baseclass_[key] = base
                 _key2value_map_[key] = value
@@ -62,24 +63,27 @@ class DefinitionMeta(type):
                     _value2key_map_[value] = key
 
         _new_class_ = super().__new__(cls, clss, bases, classdict)
-        _new_class_._key2value_map_: Dict[str, Any] = _key2value_map_  # type: ignore
-        _new_class_._value2key_map_: Dict[Any, str] = _value2key_map_  # type: ignore
-        _new_class_._unique_: bool = unique  # type: ignore
-        _new_class_._default_key_: str = default_key  # type: ignore
-        _new_class_._default_value_: Any = default_value  # type: ignore
+        _new_class_._key2value_map_: Dict[str, Any] = _key2value_map_  # type: ignore[assignment]
+        _new_class_._value2key_map_: Dict[Any, str] = _value2key_map_  # type: ignore[assignment]
+        _new_class_._unique_: bool = unique  # type: ignore[assignment]
+        _new_class_._default_key_: str = default_key  # type: ignore[assignment]
+        _new_class_._default_value_: Any = default_value  # type: ignore[assignment]
 
         for key, value in classdict.items():
             if key in _ignore:
                 continue
 
             if unique and not isinstance(value, Hashable):
-                raise ValueError(f"'{value}' is not hashable, and thus cannot be used for uniquely-valued Definitions.")
+                msg = f"'{value}' is not hashable, and thus cannot be used for uniquely-valued Definitions."
+                raise ValueError(msg)
 
             if key in _new_class_._key2value_map_:
-                raise ValueError(f"'{_key_to_baseclass_[key].__name__}' already defined '{key}'")
+                msg = f"'{_key_to_baseclass_[key].__name__}' already defined '{key}'"
+                raise ValueError(msg)
 
             if unique and value in _new_class_._value2key_map_:
-                raise ValueError(f"'{_new_class_._value2key_map_[value]}' and '{key}' have the same value: {value}")
+                msg = f"'{_new_class_._value2key_map_[value]}' and '{key}' have the same value: {value}"
+                raise ValueError(msg)
 
             _new_class_._key2value_map_[key] = value
             if unique:
@@ -92,35 +96,39 @@ class DefinitionMeta(type):
         if key in _internal and key not in cls.__dict__:
             return super().__setattr__(key, value)
 
-        raise AttributeError("Definition cannot be changed once created.")
+        msg = "Definition cannot be changed once created."
+        raise AttributeError(msg)
 
     def __delattr__(cls, key: Any) -> None:
-        raise AttributeError("Definition cannot be changed once created.")
+        msg = "Definition cannot be changed once created."
+        raise AttributeError(msg)
 
     def __getitem__(cls, key: Any) -> Any:
         try:
             return cls._key2value_map_[key]
-        except KeyError as error:
+        except KeyError:
             if cls._default_value_ is not Sentinel:
                 return cls._default_value_
-            raise error
+            raise
 
-    def __call__(cls, value: Any = Sentinel) -> str:  # type: ignore
+    def __call__(cls, value: Any = Sentinel) -> str:
         if value is Sentinel:
-            raise TypeError("Definition should not be instantiated.")
+            msg = "Definition should not be instantiated."
+            raise TypeError(msg)
 
         if not cls._unique_:
-            raise TypeError("Non unique-valued Definitions do not support reverse lookups.")
+            msg = "Non unique-valued Definitions do not support reverse lookups."
+            raise TypeError(msg)
 
         try:
             return cls._value2key_map_[value]
-        except KeyError as error:
+        except KeyError:
             if cls._default_key_ is not Sentinel:
                 return cls._default_key_
-            raise error
+            raise
 
     def __contains__(cls, item: Any) -> bool:
-        return item in cls.values()  # pylint: disable=no-value-for-parameter
+        return item in cls.values()
 
     def __str__(cls) -> str:
         return "{" + ", ".join([f"{key}={value}" for key, value in cls._key2value_map_.items()]) + "}"
@@ -128,7 +136,7 @@ class DefinitionMeta(type):
     def __len__(cls) -> int:
         return len(cls._key2value_map_)
 
-    def __iter__(cls) -> "DefinitionMeta":  # pylint: disable=non-iterator-returned
+    def __iter__(cls) -> "DefinitionMeta":
         return cls
 
     @iterable_cache(provider="values")
@@ -145,7 +153,8 @@ class DefinitionMeta(type):
 
 
 class Definition(metaclass=DefinitionMeta):
-    r"""Create Definitions by subclassing this class.
+    r"""
+    Create Definitions by subclassing this class.
 
     You can use the following class-level keywork arguments
     to change how the Definition behaves:

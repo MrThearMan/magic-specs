@@ -18,14 +18,14 @@ def batched(iterable: T, batch_size: int) -> Generator[T, Any, None]:
         try:
             iterable, batch = iterable[batch_size:], iterable[:batch_size]
 
-        except TypeError:
+        except (TypeError, KeyError):
             if isinstance(iterable, Mapping):
                 try:
                     iterable, batch = (
                         iterable.__class__(islice(iterable.items(), batch_size, len(iterable))),
                         iterable.__class__(islice(iterable.items(), 0, batch_size)),
                     )
-                except TypeError:
+                except (TypeError, KeyError):
                     iterable, batch = (
                         iterable.__class__(**dict(islice(iterable.items(), batch_size, len(iterable)))),
                         iterable.__class__(**dict(islice(iterable.items(), 0, batch_size))),
@@ -36,7 +36,7 @@ def batched(iterable: T, batch_size: int) -> Generator[T, Any, None]:
                         iterable.__class__(islice(iter(iterable), batch_size, len(iterable))),
                         iterable.__class__(islice(iter(iterable), 0, batch_size)),
                     )
-                except TypeError:
+                except (TypeError, KeyError):
                     iterable, batch = (
                         list(islice(iter(iterable), batch_size, len(iterable))),
                         list(islice(iter(iterable), 0, batch_size)),

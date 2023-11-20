@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Definition - Magic Specs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/docs.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Definition";
+        var mkdocs_page_input_path = "definition.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/console.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Magic Specs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Definition</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#comparison">Comparison</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#how-to-construct">How to construct</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#value-access">Value Access</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#key-access">Key access</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#equality">Equality</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#uniqueness">Uniqueness</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#benchmarks">Benchmarks:</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Magic Specs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Definition</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="definition">Definition</h1>
+<p>A Definition is like a combination of <a href="https://docs.python.org/3/library/enum.html">Enums</a> and
+<a href="https://github.com/jab/bidict">bidicts</a>. They all do similar things, but, have some small differences.</p>
+<h2 id="comparison">Comparison</h2>
+<h3 id="how-to-construct">How to construct</h3>
+<pre class="highlight"><code class="language-python"># Functional interface also available
+class MyEnum(Enum):
+    A = 1
+    B = 2
+
+my_bidict = bidict({"A": 1, "B": 2})
+
+class MyDefinition(Definition):
+    A = 1
+    B = 2</code></pre>
+<h3 id="value-access">Value Access</h3>
+<pre class="highlight"><code class="language-python">&gt;&gt;&gt; print(MyEnum.A)
+&lt;MyEnum.A: 1&gt;
+&gt;&gt;&gt; print(MyEnum["A"])
+&lt;MyEnum.A: 1&gt;
+&gt;&gt;&gt; print(MyEnum.A.value)
+1
+&gt;&gt;&gt; print(my_bidict["A"])
+1
+&gt;&gt;&gt; print(MyDefinition.A)
+1
+&gt;&gt;&gt; print(MyDefinition["A"])
+1</code></pre>
+<h3 id="key-access">Key access</h3>
+<pre class="highlight"><code class="language-python">&gt;&gt;&gt; print(MyEnum(1))
+&lt;MyEnum.A: 1&gt;
+&gt;&gt;&gt; print(MyEnum(1).value)
+"A"
+&gt;&gt;&gt; print(my_bidict.inverse[1])
+"A"
+&gt;&gt;&gt; print(MyDefinition(1))
+"A"</code></pre>
+<h3 id="equality">Equality</h3>
+<pre class="highlight"><code class="language-python">&gt;&gt;&gt; MyEnum.A == 1
+False
+&gt;&gt;&gt; MyEnum.A.value == 1
+True
+&gt;&gt;&gt; my_bidict["A"] == 1
+True
+&gt;&gt;&gt; MyDefinition.A == 1
+True</code></pre>
+<h3 id="uniqueness">Uniqueness</h3>
+<p>Enum:</p>
+<ul>
+<li>Duplicate values allowed by default, they are considered
+  <a href="https://docs.python.org/3/library/enum.html#duplicating-enum-members-and-values">aliases</a>,
+  so reverse access will return the first key that defined the value.</li>
+<li>Can make value uniqueness requirement with <a href="https://docs.python.org/3/library/enum.html#enum.unique">@unique</a>
+  decorator</li>
+</ul>
+<p>bidict:</p>
+<ul>
+<li>Keys and values must be unique and hashable.</li>
+</ul>
+<p>Definition:</p>
+<ul>
+<li>Keys and values must be unique and hashable by default.</li>
+<li>Uniqueness can be turned off with <code>class A(Definition, unique=False)</code>, but in this mode reverse access
+  is not allowed, since definitions are not considered each other's aliases. However, values can now be
+  non-hashable, since reverse key map is not required.</li>
+</ul>
+<h3 id="benchmarks">Benchmarks:</h3>
+<p>① Creating 100 000 instances with 3 members (A=1, B=2, C=3):</p>
+<ul>
+<li>Enum: 5.1 s.</li>
+<li>bidict: 0.66 s.</li>
+<li>Definition: 1.1 s.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

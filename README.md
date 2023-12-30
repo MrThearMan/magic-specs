@@ -6,6 +6,7 @@
 [![GitHub][licence-badge]][licence]
 [![GitHub Last Commit][repo-badge]][repo]
 [![GitHub Issues][issues-badge]][issues]
+[![Downloads][downloads-badge]][pypi]
 [![Python Version][version-badge]][pypi]
 
 ```shell
@@ -27,6 +28,7 @@ This library contains utilities for making definitions for magic values.
 
 
 [coverage-badge]: https://coveralls.io/repos/github/MrThearMan/magic-specs/badge.svg?branch=main
+[downloads-badge]: https://img.shields.io/pypi/dm/magic-specs
 [status-badge]: https://img.shields.io/github/actions/workflow/status/MrThearMan/magic-specs/test.yml?branch=main
 [pypi-badge]: https://img.shields.io/pypi/v/magic-specs
 [licence-badge]: https://img.shields.io/github/license/MrThearMan/magic-specs

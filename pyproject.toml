@@ -41,7 +41,7 @@ exclude = [
 python = ">=3.8,<4"
 
 [tool.poetry.group.test.dependencies]
-pytest = "8.3.1"
+pytest = "8.3.2"
 coverage = "7.6.0"
 pre-commit = "3.5.0"
 tox = "4.16.0"
@@ -50,7 +50,7 @@ bidict = "0.23.1"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "1.6.0"
-pymdown-extensions = "10.8.1"
+pymdown-extensions = "10.9"
 mkdocs-mermaid2-plugin = "1.1.1"
 
 [tool.poetry.group.lint.dependencies]
